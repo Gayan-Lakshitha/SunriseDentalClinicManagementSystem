@@ -4,11 +4,29 @@
  */
 package model;
 
-public class TreatmentModel {
+public class AppointmentTreatmentModel {
 
+    private int appointmentTreatmentId;
+    private int appointmentNo;
     private int treatmentId;
     private String treatmentName;
     private double amount;
+
+    public int getAppointmentTreatmentId() {
+        return appointmentTreatmentId;
+    }
+
+    public void setAppointmentTreatmentId(int appointmentTreatmentId) {
+        this.appointmentTreatmentId = appointmentTreatmentId;
+    }
+
+    public int getAppointmentNo() {
+        return appointmentNo;
+    }
+
+    public void setAppointmentNo(int appointmentNo) {
+        this.appointmentNo = appointmentNo;
+    }
 
     public int getTreatmentId() {
         return treatmentId;

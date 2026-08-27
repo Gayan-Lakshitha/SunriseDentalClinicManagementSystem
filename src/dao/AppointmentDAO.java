@@ -441,5 +441,101 @@ public class AppointmentDAO {
 }
     
     
+    public ArrayList<AppointmentModel> getDoctorAppointments(
+        int dentistId) {
+
+    ArrayList<AppointmentModel> appointmentList =
+            new ArrayList<>();
+
+    String sql = "SELECT a.appointment_no, "
+            + "p.user_id AS patient_id, "
+            + "p.name AS patient_name, "
+            + "p.contact_no AS contact_no, "
+            + "a.address, "
+            + "d.user_id AS dentist_id, "
+            + "d.name AS dentist_name, "
+            + "a.appointment_date, "
+            + "a.appointment_time, "
+            + "a.status "
+            + "FROM appointments a "
+            + "JOIN users p ON a.patient_id = p.user_id "
+            + "JOIN users d ON a.dentist_id = d.user_id "
+            + "WHERE a.dentist_id = ? "
+            + "ORDER BY a.appointment_date ASC";
+
+    try {
+
+        Connection con = DBConnection.getConnection();
+
+        PreparedStatement ps =
+                con.prepareStatement(sql);
+
+        ps.setInt(1, dentistId);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+
+            AppointmentModel appointment =
+                    new AppointmentModel();
+
+            appointment.setAppointmentNo(
+                    rs.getInt("appointment_no")
+            );
+
+            appointment.setPatientId(
+                    rs.getInt("patient_id")
+            );
+
+            appointment.setPatientName(
+                    rs.getString("patient_name")
+            );
+
+            appointment.setContactNo(
+                    rs.getString("contact_no")
+            );
+
+            appointment.setAddress(
+                    rs.getString("address")
+            );
+
+            appointment.setDentistId(
+                    rs.getInt("dentist_id")
+            );
+
+            appointment.setDentistName(
+                    rs.getString("dentist_name")
+            );
+
+            appointment.setAppointmentDate(
+                    rs.getString("appointment_date")
+            );
+
+            appointment.setAppointmentTime(
+                    rs.getString("appointment_time")
+            );
+
+            appointment.setStatus(
+                    rs.getString("status")
+            );
+
+            appointmentList.add(appointment);
+        }
+
+        rs.close();
+        ps.close();
+        con.close();
+
+    } catch (SQLException e) {
+
+        System.out.println(
+                "Error loading doctor appointments: "
+                + e.getMessage()
+        );
+    }
+
+    return appointmentList;
+}
+    
 
 }

@@ -6,12 +6,25 @@ package view;
 
 import session.Session;
 import javax.swing.JOptionPane;
+import dao.AppointmentDAO;
+import dao.AppointmentTreatmentDAO;
+import dao.TreatmentDAO;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.AppointmentModel;
+import model.AppointmentTreatmentModel;
+import model.TreatmentModel;
 
 /**
  *
  * @author DELL
  */
 public class DoctorDashboard extends javax.swing.JFrame {
+    private int appointmentNo;
+
+    private ArrayList<TreatmentModel> treatmentList;
+    
 
     /**
      * Creates new form DoctorDashboard
@@ -20,9 +33,15 @@ public class DoctorDashboard extends javax.swing.JFrame {
         initComponents();
         
         setLocationRelativeTo(null);
+        loadDoctorAppointments();
 
         lblWelcome.setText(
             "Welcome, Dr. " + Session.getName()
+    );
+        this.appointmentNo = appointmentNo;
+
+           lblAppointmentNo.setText(
+            "Appointment No: " + appointmentNo
     );
         
         jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
@@ -31,6 +50,10 @@ public class DoctorDashboard extends javax.swing.JFrame {
             return 0;
         }
     });
+        
+        txtAmount.setEditable(false);
+         loadTreatments();
+         loadTreatmentsTwo();
     }
 
     /**
@@ -49,12 +72,34 @@ public class DoctorDashboard extends javax.swing.JFrame {
         btnLogout = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        lblWelcome = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblDoctorAppointments = new javax.swing.JTable();
+        btnAddTreatments = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        lblAppointmentNo = new javax.swing.JLabel();
+        cmbTreatment = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtAmount = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        btnaddTreatment = new javax.swing.JButton();
+        btnViewTreatments = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblTreatments = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        lblWelcome = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnMyAppointments.setText("My Appointment");
+        btnMyAppointments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMyAppointmentsActionPerformed(evt);
+            }
+        });
 
         btnAddTreatment.setText("TreatMent");
 
@@ -94,39 +139,215 @@ public class DoctorDashboard extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lblWelcome.setText("jLabel1");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(366, Short.MAX_VALUE))
+            .addGap(0, 815, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(lblWelcome)
-                .addContainerGap(375, Short.MAX_VALUE))
+            .addGap(0, 484, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab1", jPanel2);
+
+        tblDoctorAppointments.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Appointment No", "Patient Name", "Contact Number", "Address", "Date", "Time", "Status"
+            }
+        ));
+        jScrollPane3.setViewportView(tblDoctorAppointments);
+
+        btnAddTreatments.setText("Add Treatment");
+        btnAddTreatments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddTreatmentsActionPerformed(evt);
+            }
+        });
+
+        btnRefresh.setText("refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 614, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(btnRefresh)
+                        .addGap(73, 73, 73)
+                        .addComponent(btnAddTreatments)))
+                .addContainerGap(129, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 441, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(btnAddTreatments))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addComponent(btnRefresh)))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab2", jPanel3);
+
+        lblAppointmentNo.setText("j");
+
+        cmbTreatment.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbTreatment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTreatmentActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Appointment No:");
+
+        jLabel2.setText("Treatment: ");
+
+        txtAmount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAmountActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Amount");
+
+        btnaddTreatment.setText("Add Treatment");
+        btnaddTreatment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnaddTreatmentActionPerformed(evt);
+            }
+        });
+
+        btnViewTreatments.setText("View Added Treatments");
+        btnViewTreatments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewTreatmentsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnaddTreatment)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbTreatment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(lblAppointmentNo, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(btnViewTreatments)))
+                .addContainerGap(417, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAppointmentNo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(21, 21, 21)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbTreatment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(63, 63, 63)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnaddTreatment, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnViewTreatments))
+                .addContainerGap(236, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("tab3", jPanel5);
+
+        tblTreatments.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Treatment ID", "Treatment Name", "Amount"
+            }
+        ));
+        jScrollPane1.setViewportView(tblTreatments);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(175, 175, 175)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(188, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
+        );
+
+        jTabbedPane1.addTab("tab4", jPanel6);
+
+        lblWelcome.setText("jLabel1");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(lblWelcome)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -134,20 +355,26 @@ public class DoctorDashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -172,6 +399,214 @@ public class DoctorDashboard extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+    private void btnAddTreatmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTreatmentsActionPerformed
+        int row =
+            tblDoctorAppointments.getSelectedRow();
+
+    if (row == -1) {
+
+        JOptionPane.showMessageDialog(this,
+                "Please select an appointment first.");
+
+        return;
+    }
+
+    int appointmentNo =
+            Integer.parseInt(
+                    tblDoctorAppointments
+                            .getValueAt(row, 0)
+                            .toString()
+            );
+       jTabbedPane1.setSelectedIndex(2);
+      
+    }//GEN-LAST:event_btnAddTreatmentsActionPerformed
+
+    private void btnMyAppointmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyAppointmentsActionPerformed
+        jTabbedPane1.setSelectedIndex(1);
+    }//GEN-LAST:event_btnMyAppointmentsActionPerformed
+
+    private void cmbTreatmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTreatmentActionPerformed
+       int index = cmbTreatment.getSelectedIndex();
+
+    if (index <= 0 || treatmentList == null) {
+
+        txtAmount.setText("");
+
+        return;
+    }
+
+    TreatmentModel treatment =
+            treatmentList.get(index - 1);
+
+    txtAmount.setText(
+            String.valueOf(treatment.getAmount())
+    );
+    }//GEN-LAST:event_cmbTreatmentActionPerformed
+
+    private void btnaddTreatmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddTreatmentActionPerformed
+        int index = cmbTreatment.getSelectedIndex();
+
+    if (index <= 0) {
+
+        JOptionPane.showMessageDialog(this,
+                "Please select a treatment.");
+
+        return;
+    }
+
+    TreatmentModel selectedTreatment =
+            treatmentList.get(index - 1);
+
+    AppointmentTreatmentModel appointmentTreatment =
+            new AppointmentTreatmentModel();
+
+    appointmentTreatment.setAppointmentNo(
+            appointmentNo
+    );
+
+    appointmentTreatment.setTreatmentId(
+            selectedTreatment.getTreatmentId()
+    );
+
+    appointmentTreatment.setTreatmentName(
+            selectedTreatment.getTreatmentName()
+    );
+
+    appointmentTreatment.setAmount(
+            selectedTreatment.getAmount()
+    );
+
+    AppointmentTreatmentDAO dao =
+            new AppointmentTreatmentDAO();
+
+    boolean result =
+            dao.addAppointmentTreatment(
+                    appointmentTreatment
+            );
+
+    if (result) {
+
+        JOptionPane.showMessageDialog(this,
+                "Treatment added successfully!\n"
+                + "Treatment: "
+                + selectedTreatment.getTreatmentName()
+                + "\nAmount: Rs. "
+                + selectedTreatment.getAmount()
+        );
+
+        cmbTreatment.setSelectedIndex(0);
+        txtAmount.setText("");
+
+    } else {
+
+        JOptionPane.showMessageDialog(this,
+                "Failed to add treatment.");
+    }
+    }//GEN-LAST:event_btnaddTreatmentActionPerformed
+
+    private void txtAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAmountActionPerformed
+         int index = cmbTreatment.getSelectedIndex();
+
+    if (index <= 0 || treatmentList == null) {
+
+        txtAmount.setText("");
+
+        return;
+    }
+
+    TreatmentModel treatment =
+            treatmentList.get(index - 1);
+
+    txtAmount.setText(
+            String.valueOf(treatment.getAmount())
+    );
+    
+    }//GEN-LAST:event_txtAmountActionPerformed
+
+    private void btnViewTreatmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewTreatmentsActionPerformed
+       jTabbedPane1.setSelectedIndex(3);
+    }//GEN-LAST:event_btnViewTreatmentsActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        loadDoctorAppointments();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void loadDoctorAppointments() {
+
+    DefaultTableModel model =
+            (DefaultTableModel)
+            tblDoctorAppointments.getModel();
+
+    model.setRowCount(0);
+
+    AppointmentDAO dao =
+            new AppointmentDAO();
+
+    ArrayList<AppointmentModel> list =
+            dao.getDoctorAppointments(
+                    Session.getUserId()
+            );
+
+    for (AppointmentModel appointment : list) {
+
+        model.addRow(new Object[]{
+
+            appointment.getAppointmentNo(),
+            appointment.getPatientName(),
+            appointment.getContactNo(),
+            appointment.getAddress(),
+            appointment.getAppointmentDate(),
+            appointment.getAppointmentTime(),
+            appointment.getStatus()
+        });
+    }
+}
+    
+    private void loadTreatments() {
+
+    cmbTreatment.removeAllItems();
+
+    cmbTreatment.addItem("Select Treatment");
+
+    TreatmentDAO dao = new TreatmentDAO();
+
+    treatmentList = dao.getAllTreatments();
+
+    for (TreatmentModel treatment : treatmentList) {
+
+        cmbTreatment.addItem(
+                treatment.getTreatmentName()
+        );
+    }
+}
+    
+    private void loadTreatmentsTwo() {
+
+    DefaultTableModel model =
+            (DefaultTableModel) tblTreatments.getModel();
+
+    model.setRowCount(0);
+
+    AppointmentTreatmentDAO dao =
+            new AppointmentTreatmentDAO();
+
+    ArrayList<AppointmentTreatmentModel> list =
+            dao.getAppointmentTreatments(
+                    appointmentNo
+            );
+
+    for (AppointmentTreatmentModel treatment : list) {
+
+        model.addRow(new Object[]{
+
+            treatment.getTreatmentId(),
+
+            treatment.getTreatmentName(),
+
+            treatment.getAmount()
+        });
+    }
+}
     /**
      * @param args the command line arguments
      */
@@ -209,13 +644,30 @@ public class DoctorDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddTreatment;
+    private javax.swing.JButton btnAddTreatments;
     private javax.swing.JButton btnHelp;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMyAppointments;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnViewTreatments;
+    private javax.swing.JButton btnaddTreatment;
+    private javax.swing.JComboBox<String> cmbTreatment;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblAppointmentNo;
     private javax.swing.JLabel lblWelcome;
+    private javax.swing.JTable tblDoctorAppointments;
+    private javax.swing.JTable tblTreatments;
+    private javax.swing.JTextField txtAmount;
     // End of variables declaration//GEN-END:variables
 }
