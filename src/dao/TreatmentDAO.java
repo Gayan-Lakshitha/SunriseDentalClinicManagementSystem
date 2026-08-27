@@ -14,13 +14,13 @@ import model.TreatmentModel;
 
 public class TreatmentDAO {
 
+   
     public ArrayList<TreatmentModel> getAllTreatments() {
 
         ArrayList<TreatmentModel> treatmentList =
                 new ArrayList<>();
 
-        String sql = "SELECT * FROM treatments "
-                + "ORDER BY treatment_name";
+        String sql = "SELECT * FROM treatments ORDER BY treatment_name";
 
         try {
 
@@ -45,7 +45,7 @@ public class TreatmentDAO {
                 );
 
                 treatment.setAmount(
-                        rs.getDouble("amount")
+                        rs.getDouble("treatment_amount")
                 );
 
                 treatmentList.add(treatment);

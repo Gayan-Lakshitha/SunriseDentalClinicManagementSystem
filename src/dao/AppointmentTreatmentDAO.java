@@ -166,5 +166,44 @@ public class AppointmentTreatmentDAO {
 
     return list;
 }
+        
+        public double getTreatmentTotal(int appointmentNo) {
+
+    double total = 0;
+
+    try {
+
+        Connection con = DBConnection.getConnection();
+
+        String sql =
+                "SELECT SUM(amount) AS total "
+                + "FROM appointment_treatments "
+                + "WHERE appointment_no = ?";
+
+        PreparedStatement pst =
+                con.prepareStatement(sql);
+
+        pst.setInt(1, appointmentNo);
+
+        ResultSet rs =
+                pst.executeQuery();
+
+        if (rs.next()) {
+
+            total = rs.getDouble("total");
+        }
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "Error calculating treatment total: "
+                + e.getMessage()
+        );
+
+        e.printStackTrace();
+    }
+
+    return total;
+}
 
 }

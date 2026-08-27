@@ -5,26 +5,19 @@
 package view;
 
 import session.Session;
-import javax.swing.JOptionPane;
 import dao.AppointmentDAO;
-import dao.AppointmentTreatmentDAO;
-import dao.TreatmentDAO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.AppointmentModel;
-import model.AppointmentTreatmentModel;
-import model.TreatmentModel;
 
 /**
  *
  * @author DELL
  */
 public class DoctorDashboard extends javax.swing.JFrame {
-    private int appointmentNo;
-
-    private ArrayList<TreatmentModel> treatmentList;
-    
+ 
+//    private int appointmentNo = 0;
 
     /**
      * Creates new form DoctorDashboard
@@ -38,11 +31,7 @@ public class DoctorDashboard extends javax.swing.JFrame {
         lblWelcome.setText(
             "Welcome, Dr. " + Session.getName()
     );
-        this.appointmentNo = appointmentNo;
-
-           lblAppointmentNo.setText(
-            "Appointment No: " + appointmentNo
-    );
+       
         
         jTabbedPane1.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
         @Override
@@ -51,9 +40,6 @@ public class DoctorDashboard extends javax.swing.JFrame {
         }
     });
         
-        txtAmount.setEditable(false);
-         loadTreatments();
-         loadTreatmentsTwo();
     }
 
     /**
@@ -72,28 +58,20 @@ public class DoctorDashboard extends javax.swing.JFrame {
         btnLogout = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblDoctorAppointments = new javax.swing.JTable();
         btnAddTreatments = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        lblAppointmentNo = new javax.swing.JLabel();
-        cmbTreatment = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtAmount = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        btnaddTreatment = new javax.swing.JButton();
-        btnViewTreatments = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblTreatments = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         lblWelcome = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(0, 102, 255));
+
+        btnMyAppointments.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnMyAppointments.setText("My Appointment");
         btnMyAppointments.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,10 +79,13 @@ public class DoctorDashboard extends javax.swing.JFrame {
             }
         });
 
+        btnAddTreatment.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAddTreatment.setText("TreatMent");
 
+        btnHelp.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnHelp.setText("Help");
 
+        btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,35 +100,49 @@ public class DoctorDashboard extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnLogout)
-                    .addComponent(btnHelp)
-                    .addComponent(btnAddTreatment)
-                    .addComponent(btnMyAppointments))
-                .addContainerGap(65, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnMyAppointments)
+                        .addContainerGap(30, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnHelp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAddTreatment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLogout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(30, 30, 30))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addComponent(btnMyAppointments)
-                .addGap(37, 37, 37)
-                .addComponent(btnAddTreatment)
-                .addGap(38, 38, 38)
-                .addComponent(btnHelp)
-                .addGap(35, 35, 35)
-                .addComponent(btnLogout)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnMyAppointments, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAddTreatment, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnHelp, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
+
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/brand-logo2.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 815, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(132, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 484, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(82, 82, 82)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab1", jPanel2);
@@ -212,124 +207,10 @@ public class DoctorDashboard extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab2", jPanel3);
 
-        lblAppointmentNo.setText("j");
+        jPanel4.setBackground(new java.awt.Color(51, 51, 255));
 
-        cmbTreatment.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbTreatment.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbTreatmentActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Appointment No:");
-
-        jLabel2.setText("Treatment: ");
-
-        txtAmount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAmountActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("Amount");
-
-        btnaddTreatment.setText("Add Treatment");
-        btnaddTreatment.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnaddTreatmentActionPerformed(evt);
-            }
-        });
-
-        btnViewTreatments.setText("View Added Treatments");
-        btnViewTreatments.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewTreatmentsActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnaddTreatment)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))))
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbTreatment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(lblAppointmentNo, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(btnViewTreatments)))
-                .addContainerGap(417, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblAppointmentNo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbTreatment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(31, 31, 31)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(63, 63, 63)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnaddTreatment, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnViewTreatments))
-                .addContainerGap(236, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("tab3", jPanel5);
-
-        tblTreatments.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Treatment ID", "Treatment Name", "Amount"
-            }
-        ));
-        jScrollPane1.setViewportView(tblTreatments);
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(175, 175, 175)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(188, Short.MAX_VALUE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
-        );
-
-        jTabbedPane1.addTab("tab4", jPanel6);
-
+        lblWelcome.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblWelcome.setForeground(new java.awt.Color(255, 255, 255));
         lblWelcome.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -339,14 +220,14 @@ public class DoctorDashboard extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
+                .addGap(48, 48, 48))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(lblWelcome)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(lblWelcome, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                .addGap(17, 17, 17))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -400,132 +281,37 @@ public class DoctorDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnAddTreatmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTreatmentsActionPerformed
-        int row =
-            tblDoctorAppointments.getSelectedRow();
+
+    
+     int row = tblDoctorAppointments.getSelectedRow();
 
     if (row == -1) {
 
-        JOptionPane.showMessageDialog(this,
-                "Please select an appointment first.");
+        JOptionPane.showMessageDialog(
+                this,
+                "Please select an appointment first."
+        );
 
         return;
     }
 
-    int appointmentNo =
+    int selectedAppointmentNo =
             Integer.parseInt(
                     tblDoctorAppointments
                             .getValueAt(row, 0)
                             .toString()
             );
-       jTabbedPane1.setSelectedIndex(2);
-      
+
+    new AddTreatment(selectedAppointmentNo)
+            .setVisible(true);
+
+    this.dispose();
+
     }//GEN-LAST:event_btnAddTreatmentsActionPerformed
 
     private void btnMyAppointmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyAppointmentsActionPerformed
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_btnMyAppointmentsActionPerformed
-
-    private void cmbTreatmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTreatmentActionPerformed
-       int index = cmbTreatment.getSelectedIndex();
-
-    if (index <= 0 || treatmentList == null) {
-
-        txtAmount.setText("");
-
-        return;
-    }
-
-    TreatmentModel treatment =
-            treatmentList.get(index - 1);
-
-    txtAmount.setText(
-            String.valueOf(treatment.getAmount())
-    );
-    }//GEN-LAST:event_cmbTreatmentActionPerformed
-
-    private void btnaddTreatmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddTreatmentActionPerformed
-        int index = cmbTreatment.getSelectedIndex();
-
-    if (index <= 0) {
-
-        JOptionPane.showMessageDialog(this,
-                "Please select a treatment.");
-
-        return;
-    }
-
-    TreatmentModel selectedTreatment =
-            treatmentList.get(index - 1);
-
-    AppointmentTreatmentModel appointmentTreatment =
-            new AppointmentTreatmentModel();
-
-    appointmentTreatment.setAppointmentNo(
-            appointmentNo
-    );
-
-    appointmentTreatment.setTreatmentId(
-            selectedTreatment.getTreatmentId()
-    );
-
-    appointmentTreatment.setTreatmentName(
-            selectedTreatment.getTreatmentName()
-    );
-
-    appointmentTreatment.setAmount(
-            selectedTreatment.getAmount()
-    );
-
-    AppointmentTreatmentDAO dao =
-            new AppointmentTreatmentDAO();
-
-    boolean result =
-            dao.addAppointmentTreatment(
-                    appointmentTreatment
-            );
-
-    if (result) {
-
-        JOptionPane.showMessageDialog(this,
-                "Treatment added successfully!\n"
-                + "Treatment: "
-                + selectedTreatment.getTreatmentName()
-                + "\nAmount: Rs. "
-                + selectedTreatment.getAmount()
-        );
-
-        cmbTreatment.setSelectedIndex(0);
-        txtAmount.setText("");
-
-    } else {
-
-        JOptionPane.showMessageDialog(this,
-                "Failed to add treatment.");
-    }
-    }//GEN-LAST:event_btnaddTreatmentActionPerformed
-
-    private void txtAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAmountActionPerformed
-         int index = cmbTreatment.getSelectedIndex();
-
-    if (index <= 0 || treatmentList == null) {
-
-        txtAmount.setText("");
-
-        return;
-    }
-
-    TreatmentModel treatment =
-            treatmentList.get(index - 1);
-
-    txtAmount.setText(
-            String.valueOf(treatment.getAmount())
-    );
-    
-    }//GEN-LAST:event_txtAmountActionPerformed
-
-    private void btnViewTreatmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewTreatmentsActionPerformed
-       jTabbedPane1.setSelectedIndex(3);
-    }//GEN-LAST:event_btnViewTreatmentsActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         loadDoctorAppointments();
@@ -561,51 +347,8 @@ public class DoctorDashboard extends javax.swing.JFrame {
         });
     }
 }
-    
-    private void loadTreatments() {
-
-    cmbTreatment.removeAllItems();
-
-    cmbTreatment.addItem("Select Treatment");
-
-    TreatmentDAO dao = new TreatmentDAO();
-
-    treatmentList = dao.getAllTreatments();
-
-    for (TreatmentModel treatment : treatmentList) {
-
-        cmbTreatment.addItem(
-                treatment.getTreatmentName()
-        );
-    }
-}
-    
-    private void loadTreatmentsTwo() {
-
-    DefaultTableModel model =
-            (DefaultTableModel) tblTreatments.getModel();
-
-    model.setRowCount(0);
-
-    AppointmentTreatmentDAO dao =
-            new AppointmentTreatmentDAO();
-
-    ArrayList<AppointmentTreatmentModel> list =
-            dao.getAppointmentTreatments(
-                    appointmentNo
-            );
-
-    for (AppointmentTreatmentModel treatment : list) {
-
-        model.addRow(new Object[]{
-
-            treatment.getTreatmentId(),
-
-            treatment.getTreatmentName(),
-
-            treatment.getAmount()
-        });
-    }
+    public void openTab(int index) {
+    jTabbedPane1.setSelectedIndex(index);
 }
     /**
      * @param args the command line arguments
@@ -649,25 +392,14 @@ public class DoctorDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMyAppointments;
     private javax.swing.JButton btnRefresh;
-    private javax.swing.JButton btnViewTreatments;
-    private javax.swing.JButton btnaddTreatment;
-    private javax.swing.JComboBox<String> cmbTreatment;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblAppointmentNo;
     private javax.swing.JLabel lblWelcome;
     private javax.swing.JTable tblDoctorAppointments;
-    private javax.swing.JTable tblTreatments;
-    private javax.swing.JTextField txtAmount;
     // End of variables declaration//GEN-END:variables
 }

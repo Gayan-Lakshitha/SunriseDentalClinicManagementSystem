@@ -33,4 +33,12 @@ public class TreatmentModel {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
+    public void setDescription(String professional_teeth_cleaning) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void setPrice(double d) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

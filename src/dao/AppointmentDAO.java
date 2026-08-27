@@ -538,4 +538,80 @@ public class AppointmentDAO {
 }
     
 
+    
+    public AppointmentModel getAppointmentByNo(int appointmentNo) {
+
+    AppointmentModel appointment = null;
+
+    try {
+
+        Connection con = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM appointments "
+                + "WHERE appointment_no = ?";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setInt(1, appointmentNo);
+
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+
+            appointment = new AppointmentModel();
+
+            appointment.setAppointmentNo(
+                    rs.getInt("appointment_no")
+            );
+
+            appointment.setPatientId(
+                    rs.getInt("patient_id")
+            );
+
+//            appointment.setPatientName(
+//                    rs.getString("patient_name")
+//            );
+
+            appointment.setAddress(
+                    rs.getString("address")
+            );
+
+            appointment.setContactNo(
+                    rs.getString("contact_no")
+            );
+
+            appointment.setDentistId(
+                    rs.getInt("dentist_id")
+            );
+
+//            appointment.setDentistName(
+//                    rs.getString("dentist_name")
+//            );
+
+            // Your model uses String for appointmentDate
+            appointment.setAppointmentDate(
+                    rs.getString("appointment_date")
+            );
+
+            appointment.setAppointmentTime(
+                    rs.getString("appointment_time")
+            );
+
+            appointment.setStatus(
+                    rs.getString("status")
+            );
+        }
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "Error loading appointment: "
+                + e.getMessage()
+        );
+
+        e.printStackTrace();
+    }
+
+    return appointment;
+}
 }
