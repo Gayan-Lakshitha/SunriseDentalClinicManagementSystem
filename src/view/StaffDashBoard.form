@@ -650,8 +650,6 @@
                                           <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                                               <Component id="jLabel15" max="32767" attributes="0"/>
                                               <Component id="jLabel14" pref="112" max="32767" attributes="0"/>
-                                              <Component id="jLabel12" min="-2" pref="94" max="-2" attributes="0"/>
-                                              <Component id="jLabel11" max="32767" attributes="0"/>
                                               <Component id="jLabel10" max="32767" attributes="0"/>
                                               <Component id="jLabel13" alignment="0" max="32767" attributes="0"/>
                                           </Group>
@@ -666,9 +664,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="103" groupAlignment="1" attributes="0">
                                                   <Component id="txtBillAppointmentNo" min="-2" pref="159" max="-2" attributes="0"/>
-                                                  <Component id="lblBillPatientName" alignment="1" min="-2" pref="159" max="-2" attributes="0"/>
-                                                  <Component id="lblBillContact" alignment="1" min="-2" pref="159" max="-2" attributes="0"/>
-                                                  <Component id="lblBillDentist" min="-2" pref="159" max="-2" attributes="0"/>
+                                                  <Component id="lblBillPatientID" alignment="1" min="-2" pref="159" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="lblTreatmentTotal" alignment="1" min="-2" pref="159" max="-2" attributes="0"/>
                                           </Group>
@@ -694,6 +690,11 @@
                           </Group>
                       </Group>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
+                      <Component id="btnSaveBill" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -710,19 +711,9 @@
                       <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblBillPatientName" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
+                          <Component id="lblBillPatientID" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblBillContact" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblBillDentist" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                           <Component id="lblTreatmentTotal" min="-2" max="-2" attributes="0"/>
@@ -758,7 +749,9 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnPrintReceipt" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="52" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnSaveBill" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="23" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -776,27 +769,7 @@
                 <Property name="text" type="java.lang.String" value="Patient ID:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="lblBillPatientName">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="-"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel11">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Contact No:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblBillContact">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="-"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel12">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Dentist:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblBillDentist">
+            <Component class="javax.swing.JLabel" name="lblBillPatientID">
               <Properties>
                 <Property name="text" type="java.lang.String" value="-"/>
               </Properties>
@@ -911,6 +884,150 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchbillActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnSaveBill">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Save Bill"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveBillActionPerformed"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel7">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="tab5">
+                <Property name="tabTitle" type="java.lang.String" value="tab5"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="338" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="lblReceiptBillId" max="32767" attributes="0"/>
+                                  <Component id="lblReceiptAppointmentNo" pref="197" max="32767" attributes="0"/>
+                                  <Component id="lblReceiptPatientId" max="32767" attributes="0"/>
+                                  <Component id="lblReceiptTreatmentTotal" max="32767" attributes="0"/>
+                                  <Component id="lblReceiptConsultationFee" max="32767" attributes="0"/>
+                                  <Component id="lblReceiptGrandTotal" max="32767" attributes="0"/>
+                                  <Component id="lblReceiptPayment" max="32767" attributes="0"/>
+                                  <Component id="lblReceiptBalance" max="32767" attributes="0"/>
+                                  <Component id="lblReceiptStatus" max="32767" attributes="0"/>
+                                  <Component id="lblReceiptDate" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="308" max="-2" attributes="0"/>
+                              <Component id="btnPrintReceipt1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
+                              <Component id="btnBackToBilling" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="351" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="lblReceiptBillId" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblReceiptAppointmentNo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblReceiptPatientId" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="lblReceiptTreatmentTotal" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblReceiptConsultationFee" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblReceiptGrandTotal" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblReceiptPayment" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblReceiptBalance" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblReceiptStatus" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblReceiptDate" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnPrintReceipt1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBackToBilling" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="65" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="lblReceiptBillId">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jLabel9"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblReceiptAppointmentNo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jLabel11"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblReceiptPatientId">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jLabel12"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblReceiptTreatmentTotal">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jLabel17"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblReceiptConsultationFee">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jLabel18"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblReceiptGrandTotal">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jLabel19"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblReceiptPayment">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jLabel20"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblReceiptBalance">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jLabel21"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblReceiptStatus">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jLabel22"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblReceiptDate">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jLabel23"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnPrintReceipt1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Print Receipt"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnBackToBilling">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Back  to Bill"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

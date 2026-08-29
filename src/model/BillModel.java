@@ -8,14 +8,16 @@ public class BillModel {
 
     private int billId;
     private int appointmentNo;
-    private double consultationFee;
+    private int patientId;
+
     private double treatmentTotal;
-    private double totalAmount;
+    private double consultationFee;
+    private double grandTotal;
+    private double payment;
+    private double balance;
+
     private String paymentStatus;
     private String billDate;
-
-    public BillModel() {
-    }
 
     public int getBillId() {
         return billId;
@@ -33,12 +35,12 @@ public class BillModel {
         this.appointmentNo = appointmentNo;
     }
 
-    public double getConsultationFee() {
-        return consultationFee;
+    public int getPatientId() {
+        return patientId;
     }
 
-    public void setConsultationFee(double consultationFee) {
-        this.consultationFee = consultationFee;
+    public void setPatientId(int patientId) {
+        this.patientId = patientId;
     }
 
     public double getTreatmentTotal() {
@@ -49,12 +51,36 @@ public class BillModel {
         this.treatmentTotal = treatmentTotal;
     }
 
-    public double getTotalAmount() {
-        return totalAmount;
+    public double getConsultationFee() {
+        return consultationFee;
     }
 
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setConsultationFee(double consultationFee) {
+        this.consultationFee = consultationFee;
+    }
+
+    public double getGrandTotal() {
+        return grandTotal;
+    }
+
+    public void setGrandTotal(double grandTotal) {
+        this.grandTotal = grandTotal;
+    }
+
+    public double getPayment() {
+        return payment;
+    }
+
+    public void setPayment(double payment) {
+        this.payment = payment;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public String getPaymentStatus() {

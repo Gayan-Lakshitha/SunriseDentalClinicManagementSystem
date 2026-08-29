@@ -576,9 +576,9 @@ public class AppointmentDAO {
                     rs.getString("address")
             );
 
-            appointment.setContactNo(
-                    rs.getString("contact_no")
-            );
+//            appointment.setContactNo(
+//                    rs.getString("contact_no")
+//            );
 
             appointment.setDentistId(
                     rs.getInt("dentist_id")

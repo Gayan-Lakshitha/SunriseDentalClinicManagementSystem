@@ -13,32 +13,31 @@ import model.BillModel;
 public class BillDAO {
 
 
-    // Check whether a bill already exists
-    public boolean billExists(int appointmentNo) {
+   public boolean billExists(int appointmentNo) {
 
         boolean exists = false;
 
+        String sql = "SELECT bill_id FROM bill "
+                + "WHERE appointment_no = ?";
+
         try {
 
-            Connection con =
-                    DBConnection.getConnection();
-
-            String sql =
-                    "SELECT bill_id FROM bill "
-                    + "WHERE appointment_no = ?";
+            Connection con = DBConnection.getConnection();
 
             PreparedStatement pst =
                     con.prepareStatement(sql);
 
             pst.setInt(1, appointmentNo);
 
-            ResultSet rs =
-                    pst.executeQuery();
+            ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
-
                 exists = true;
             }
+
+            rs.close();
+            pst.close();
+            con.close();
 
         } catch (Exception e) {
 
@@ -54,26 +53,21 @@ public class BillDAO {
     }
 
 
-    // Create bill
-    public boolean createBill(BillModel bill) {
+     public boolean createBill(BillModel bill) {
 
         boolean result = false;
+
+        String sql = "INSERT INTO bill "
+                + "(appointment_no, patient_id, "
+                + "treatment_total, consultation_fee, "
+                + "grand_total, payment, balance, "
+                + "payment_status) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
 
             Connection con =
                     DBConnection.getConnection();
-
-            String sql =
-                    "INSERT INTO bill "
-                    + "("
-                    + "appointment_no, "
-                    + "consultation_fee, "
-                    + "treatment_total, "
-                    + "total_amount, "
-                    + "payment_status"
-                    + ") "
-                    + "VALUES (?, ?, ?, ?, ?)";
 
             PreparedStatement pst =
                     con.prepareStatement(sql);
@@ -83,9 +77,9 @@ public class BillDAO {
                     bill.getAppointmentNo()
             );
 
-            pst.setDouble(
+            pst.setInt(
                     2,
-                    bill.getConsultationFee()
+                    bill.getPatientId()
             );
 
             pst.setDouble(
@@ -95,15 +89,33 @@ public class BillDAO {
 
             pst.setDouble(
                     4,
-                    bill.getTotalAmount()
+                    bill.getConsultationFee()
+            );
+
+            pst.setDouble(
+                    5,
+                    bill.getGrandTotal()
+            );
+
+            pst.setDouble(
+                    6,
+                    bill.getPayment()
+            );
+
+            pst.setDouble(
+                    7,
+                    bill.getBalance()
             );
 
             pst.setString(
-                    5,
+                    8,
                     bill.getPaymentStatus()
             );
 
             result = pst.executeUpdate() > 0;
+
+            pst.close();
+            con.close();
 
         } catch (Exception e) {
 
@@ -119,20 +131,19 @@ public class BillDAO {
     }
 
 
-    // Get bill by appointment number
-    public BillModel getBillByAppointmentNo(
+     public BillModel getBillByAppointmentNo(
             int appointmentNo) {
 
         BillModel bill = null;
+
+        String sql = "SELECT * FROM bill "
+                + "WHERE appointment_no = ? "
+                + "ORDER BY bill_id DESC LIMIT 1";
 
         try {
 
             Connection con =
                     DBConnection.getConnection();
-
-            String sql =
-                    "SELECT * FROM bill "
-                    + "WHERE appointment_no = ?";
 
             PreparedStatement pst =
                     con.prepareStatement(sql);
@@ -154,22 +165,42 @@ public class BillDAO {
                         rs.getInt("appointment_no")
                 );
 
-                bill.setConsultationFee(
-                        rs.getDouble("consultation_fee")
+                bill.setPatientId(
+                        rs.getInt("patient_id")
                 );
 
                 bill.setTreatmentTotal(
                         rs.getDouble("treatment_total")
                 );
 
-                bill.setTotalAmount(
-                        rs.getDouble("total_amount")
+                bill.setConsultationFee(
+                        rs.getDouble("consultation_fee")
+                );
+
+                bill.setGrandTotal(
+                        rs.getDouble("grand_total")
+                );
+
+                bill.setPayment(
+                        rs.getDouble("payment")
+                );
+
+                bill.setBalance(
+                        rs.getDouble("balance")
                 );
 
                 bill.setPaymentStatus(
                         rs.getString("payment_status")
                 );
+
+                bill.setBillDate(
+                        rs.getString("bill_date")
+                );
             }
+
+            rs.close();
+            pst.close();
+            con.close();
 
         } catch (Exception e) {
 
@@ -185,31 +216,41 @@ public class BillDAO {
     }
 
 
-    // Mark bill as paid
-    public boolean updatePaymentStatus(
+
+     public boolean updatePayment(
             int appointmentNo,
+            double payment,
+            double balance,
             String paymentStatus) {
 
         boolean result = false;
+
+        String sql = "UPDATE bill "
+                + "SET payment = ?, "
+                + "balance = ?, "
+                + "payment_status = ? "
+                + "WHERE appointment_no = ?";
 
         try {
 
             Connection con =
                     DBConnection.getConnection();
 
-            String sql =
-                    "UPDATE bill "
-                    + "SET payment_status = ? "
-                    + "WHERE appointment_no = ?";
-
             PreparedStatement pst =
                     con.prepareStatement(sql);
 
-            pst.setString(1, paymentStatus);
+            pst.setDouble(1, payment);
 
-            pst.setInt(2, appointmentNo);
+            pst.setDouble(2, balance);
+
+            pst.setString(3, paymentStatus);
+
+            pst.setInt(4, appointmentNo);
 
             result = pst.executeUpdate() > 0;
+
+            pst.close();
+            con.close();
 
         } catch (Exception e) {
 
@@ -223,4 +264,7 @@ public class BillDAO {
 
         return result;
     }
+     
+     
+     
 }

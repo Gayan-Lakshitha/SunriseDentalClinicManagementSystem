@@ -6,6 +6,7 @@ package view;
 
 import dao.AppointmentDAO;
 import dao.AppointmentTreatmentDAO;
+import dao.BillDAO;
 import dao.UserDAO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -14,6 +15,7 @@ import session.Session;
 import javax.swing.table.DefaultTableModel;
 import model.AppointmentTreatmentModel;
 import model.AppointmentModel;
+import model.BillModel;
 
 /**
  *
@@ -22,12 +24,13 @@ import model.AppointmentModel;
 public class StaffDashBoard extends javax.swing.JFrame {
     
     private ArrayList<UserModel> doctorList;
-    private int billAppointmentNo = 0;
-
+    private int billAppointmentNo = 0;   
+    private int billPatientId = 0;
+    private double paymentAmount = 0.0;
+    private double balanceAmount = 0.0;
+    private String paymentStatus = "";
     private double treatmentTotal = 0.0;
-
     private double consultationFee = 1000.0;
-
     private double grandTotal = 0.0;
 
     /**
@@ -112,11 +115,7 @@ public class StaffDashBoard extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtBillAppointmentNo = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        lblBillPatientName = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        lblBillContact = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        lblBillDentist = new javax.swing.JLabel();
+        lblBillPatientID = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblBillTreatments = new javax.swing.JTable();
         jLabel13 = new javax.swing.JLabel();
@@ -131,6 +130,20 @@ public class StaffDashBoard extends javax.swing.JFrame {
         lblBalance = new javax.swing.JLabel();
         btnPrintReceipt = new javax.swing.JButton();
         btnSearchbill = new javax.swing.JButton();
+        btnSaveBill = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        lblReceiptBillId = new javax.swing.JLabel();
+        lblReceiptAppointmentNo = new javax.swing.JLabel();
+        lblReceiptPatientId = new javax.swing.JLabel();
+        lblReceiptTreatmentTotal = new javax.swing.JLabel();
+        lblReceiptConsultationFee = new javax.swing.JLabel();
+        lblReceiptGrandTotal = new javax.swing.JLabel();
+        lblReceiptPayment = new javax.swing.JLabel();
+        lblReceiptBalance = new javax.swing.JLabel();
+        lblReceiptStatus = new javax.swing.JLabel();
+        lblReceiptDate = new javax.swing.JLabel();
+        btnPrintReceipt1 = new javax.swing.JButton();
+        btnBackToBilling = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         lblWelcome = new javax.swing.JLabel();
 
@@ -487,15 +500,7 @@ public class StaffDashBoard extends javax.swing.JFrame {
 
         jLabel10.setText("Patient ID:");
 
-        lblBillPatientName.setText("-");
-
-        jLabel11.setText("Contact No:");
-
-        lblBillContact.setText("-");
-
-        jLabel12.setText("Dentist:");
-
-        lblBillDentist.setText("-");
+        lblBillPatientID.setText("-");
 
         tblBillTreatments.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -552,6 +557,13 @@ public class StaffDashBoard extends javax.swing.JFrame {
             }
         });
 
+        btnSaveBill.setText("Save Bill");
+        btnSaveBill.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveBillActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelBillingLayout = new javax.swing.GroupLayout(jPanelBilling);
         jPanelBilling.setLayout(jPanelBillingLayout);
         jPanelBillingLayout.setHorizontalGroup(
@@ -574,8 +586,6 @@ public class StaffDashBoard extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBillingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -586,9 +596,7 @@ public class StaffDashBoard extends javax.swing.JFrame {
                                     .addGroup(jPanelBillingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanelBillingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(txtBillAppointmentNo, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblBillPatientName, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblBillContact, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblBillDentist, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(lblBillPatientID, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addComponent(lblTreatmentTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(lblConsultationFee, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(lblGrandTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -603,6 +611,10 @@ public class StaffDashBoard extends javax.swing.JFrame {
                         .addGap(102, 102, 102)
                         .addComponent(btnSearchbill)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanelBillingLayout.createSequentialGroup()
+                .addGap(99, 99, 99)
+                .addComponent(btnSaveBill)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelBillingLayout.setVerticalGroup(
             jPanelBillingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -616,16 +628,8 @@ public class StaffDashBoard extends javax.swing.JFrame {
                 .addGap(46, 46, 46)
                 .addGroup(jPanelBillingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(lblBillPatientName, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(jPanelBillingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(lblBillContact))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelBillingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(lblBillDentist))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(lblBillPatientID, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(77, 77, 77)
                 .addGroup(jPanelBillingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
                     .addComponent(lblTreatmentTotal))
@@ -653,10 +657,94 @@ public class StaffDashBoard extends javax.swing.JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPrintReceipt)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSaveBill)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab4", jPanelBilling);
+
+        lblReceiptBillId.setText("jLabel9");
+
+        lblReceiptAppointmentNo.setText("jLabel11");
+
+        lblReceiptPatientId.setText("jLabel12");
+
+        lblReceiptTreatmentTotal.setText("jLabel17");
+
+        lblReceiptConsultationFee.setText("jLabel18");
+
+        lblReceiptGrandTotal.setText("jLabel19");
+
+        lblReceiptPayment.setText("jLabel20");
+
+        lblReceiptBalance.setText("jLabel21");
+
+        lblReceiptStatus.setText("jLabel22");
+
+        lblReceiptDate.setText("jLabel23");
+
+        btnPrintReceipt1.setText("Print Receipt");
+
+        btnBackToBilling.setText("Back  to Bill");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(338, 338, 338)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblReceiptBillId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblReceiptAppointmentNo, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                            .addComponent(lblReceiptPatientId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblReceiptTreatmentTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblReceiptConsultationFee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblReceiptGrandTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblReceiptPayment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblReceiptBalance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblReceiptStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblReceiptDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(308, 308, 308)
+                        .addComponent(btnPrintReceipt1)
+                        .addGap(91, 91, 91)
+                        .addComponent(btnBackToBilling)))
+                .addContainerGap(351, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(lblReceiptBillId)
+                .addGap(18, 18, 18)
+                .addComponent(lblReceiptAppointmentNo)
+                .addGap(18, 18, 18)
+                .addComponent(lblReceiptPatientId)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblReceiptTreatmentTotal)
+                .addGap(18, 18, 18)
+                .addComponent(lblReceiptConsultationFee)
+                .addGap(18, 18, 18)
+                .addComponent(lblReceiptGrandTotal)
+                .addGap(18, 18, 18)
+                .addComponent(lblReceiptPayment)
+                .addGap(18, 18, 18)
+                .addComponent(lblReceiptBalance)
+                .addGap(18, 18, 18)
+                .addComponent(lblReceiptStatus)
+                .addGap(18, 18, 18)
+                .addComponent(lblReceiptDate)
+                .addGap(48, 48, 48)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPrintReceipt1)
+                    .addComponent(btnBackToBilling))
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("tab5", jPanel7);
 
         lblWelcome.setText("jLabel7");
 
@@ -1164,41 +1252,35 @@ if (result) {
         return;
     }
 
-    try {
+      try {
 
-        double payment =
+        paymentAmount =
                 Double.parseDouble(paymentText);
 
-        if (payment < grandTotal) {
-
-            double remaining =
-                    grandTotal - payment;
-
-            lblBalance.setText(
-                    String.format(
-                            "Remaining: Rs. %.2f",
-                            remaining
-                    )
-            );
+        if (paymentAmount < 0) {
 
             JOptionPane.showMessageDialog(
                     this,
-                    "Payment is not sufficient.\n"
-                    + "Remaining Amount: Rs. "
-                    + String.format("%.2f", remaining),
-                    "Payment Pending",
-                    JOptionPane.WARNING_MESSAGE
+                    "Payment cannot be negative.",
+                    "Invalid Payment",
+                    JOptionPane.ERROR_MESSAGE
             );
 
-        } else {
+            return;
+        }
 
-            double balance =
-                    payment - grandTotal;
+        if (paymentAmount >= grandTotal) {
+
+            balanceAmount =
+                    paymentAmount - grandTotal;
+
+            paymentStatus = "Paid";
 
             lblBalance.setText(
-                    String.format(
-                            "Change: Rs. %.2f",
-                            balance
+                    "Change: Rs. "
+                    + String.format(
+                            "%.2f",
+                            balanceAmount
                     )
             );
 
@@ -1206,9 +1288,39 @@ if (result) {
                     this,
                     "Payment received successfully.\n"
                     + "Change: Rs. "
-                    + String.format("%.2f", balance),
+                    + String.format(
+                            "%.2f",
+                            balanceAmount
+                    ),
                     "Payment Successful",
                     JOptionPane.INFORMATION_MESSAGE
+            );
+
+        } else {
+
+            balanceAmount =
+                    grandTotal - paymentAmount;
+
+            paymentStatus = "Pending";
+
+            lblBalance.setText(
+                    "Remaining: Rs. "
+                    + String.format(
+                            "%.2f",
+                            balanceAmount
+                    )
+            );
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Payment is incomplete.\n"
+                    + "Remaining Amount: Rs. "
+                    + String.format(
+                            "%.2f",
+                            balanceAmount
+                    ),
+                    "Payment Pending",
+                    JOptionPane.WARNING_MESSAGE
             );
         }
 
@@ -1216,12 +1328,124 @@ if (result) {
 
         JOptionPane.showMessageDialog(
                 this,
-                "Please enter a valid payment amount.",
-                "Invalid Amount",
+                "Please enter a valid number.",
+                "Invalid Payment",
                 JOptionPane.ERROR_MESSAGE
         );
     }
     }//GEN-LAST:event_btnCalculateBalanceActionPerformed
+
+    private void btnSaveBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveBillActionPerformed
+       if (billAppointmentNo <= 0) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Please search for an appointment first."
+        );
+
+        return;
+    }
+
+    // Check Patient ID
+    if (billPatientId <= 0) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Patient ID was not found."
+        );
+
+        return;
+    }
+
+    // Check payment
+    if (txtPayment.getText().trim().isEmpty()) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Please enter and calculate the payment first."
+        );
+
+        return;
+    }
+    
+     // Create BillDAO only once
+    BillDAO dao = new BillDAO();
+
+    // Check whether bill already exists
+    if (dao.billExists(billAppointmentNo)) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "A bill already exists for this appointment.",
+                "Duplicate Bill",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        return;
+    }
+
+    // Create Bill object
+    BillModel bill =
+            new BillModel();
+
+    bill.setAppointmentNo(
+            billAppointmentNo
+    );
+
+    bill.setPatientId(
+            billPatientId
+    );
+
+    bill.setTreatmentTotal(
+            treatmentTotal
+    );
+
+    bill.setConsultationFee(
+            consultationFee
+    );
+
+    bill.setGrandTotal(
+            grandTotal
+    );
+
+    bill.setPayment(
+            paymentAmount
+    );
+
+    bill.setBalance(
+            balanceAmount
+    );
+
+    bill.setPaymentStatus(
+            paymentStatus
+    );
+
+    
+
+    boolean result =
+            dao.createBill(bill);
+
+    if (result) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Bill saved successfully!"
+        );
+
+    } else {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Failed to save bill."
+        );
+    }
+    
+    loadReceipt(billAppointmentNo);
+
+    // Open Receipt tab
+    jTabbedPane1.setSelectedIndex(4);
+    
+    }//GEN-LAST:event_btnSaveBillActionPerformed
 
     private void loadDoctors() {
 
@@ -1290,21 +1514,16 @@ if (result) {
 
         return;
     }
+     billPatientId =
+            appointment.getPatientId();
 
-    lblBillPatientName.setText(
-            appointment.getPatientName()
+    
+    lblBillPatientID.setText(
+            String.valueOf(
+                    appointment.getPatientId()
+            )
     );
-
-    lblBillContact.setText(
-            appointment.getContactNo()
-    );
-
-    lblBillDentist.setText(
-            appointment.getDentistName()
-    );
-
     loadBillTreatments();
-
     calculateBill();
 }
     
@@ -1439,11 +1658,8 @@ if (result) {
 
     txtBillAppointmentNo.setText("");
 
-    lblBillPatientName.setText("-");
-
-    lblBillContact.setText("-");
-
-    lblBillDentist.setText("-");
+    
+    lblBillPatientID.setText("-");
 
     lblTreatmentTotal.setText("Rs. 0.00");
 
@@ -1467,6 +1683,94 @@ if (result) {
     model.setRowCount(0);
 }
     
+    private void loadReceipt(
+        int appointmentNo) {
+
+    BillDAO dao =
+            new BillDAO();
+
+    BillModel bill =
+            dao.getBillByAppointmentNo(
+                    appointmentNo
+            );
+
+    if (bill == null) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Bill not found."
+        );
+
+        return;
+    }
+
+    lblReceiptBillId.setText(
+            String.valueOf(
+                    bill.getBillId()
+            )
+    );
+
+    lblReceiptAppointmentNo.setText(
+            String.valueOf(
+                    bill.getAppointmentNo()
+            )
+    );
+
+    lblReceiptPatientId.setText(
+            String.valueOf(
+                    bill.getPatientId()
+            )
+    );
+
+    lblReceiptTreatmentTotal.setText(
+            "Rs. "
+            + String.format(
+                    "%.2f",
+                    bill.getTreatmentTotal()
+            )
+    );
+
+    lblReceiptConsultationFee.setText(
+            "Rs. "
+            + String.format(
+                    "%.2f",
+                    bill.getConsultationFee()
+            )
+    );
+
+    lblReceiptGrandTotal.setText(
+            "Rs. "
+            + String.format(
+                    "%.2f",
+                    bill.getGrandTotal()
+            )
+    );
+
+    lblReceiptPayment.setText(
+            "Rs. "
+            + String.format(
+                    "%.2f",
+                    bill.getPayment()
+            )
+    );
+
+    lblReceiptBalance.setText(
+            "Rs. "
+            + String.format(
+                    "%.2f",
+                    bill.getBalance()
+            )
+    );
+
+    lblReceiptStatus.setText(
+            bill.getPaymentStatus()
+    );
+
+    lblReceiptDate.setText(
+            bill.getBillDate()
+    );
+}
+    
     private void clearBillingDetails() {
 
     billAppointmentNo = 0;
@@ -1474,12 +1778,7 @@ if (result) {
     treatmentTotal = 0.0;
 
     grandTotal = 0.0;
-
-    lblBillPatientName.setText("-");
-
-    lblBillContact.setText("-");
-
-    lblBillDentist.setText("-");
+    lblBillPatientID.setText("-");
 
     lblTreatmentTotal.setText("Rs. 0.00");
 
@@ -1531,6 +1830,7 @@ if (result) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBackToBilling;
     private javax.swing.JButton btnCalculateBalance;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnCreateBill;
@@ -1540,8 +1840,10 @@ if (result) {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnManageAppointments;
     private javax.swing.JButton btnPrintReceipt;
+    private javax.swing.JButton btnPrintReceipt1;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRegister;
+    private javax.swing.JButton btnSaveBill;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSearchAppointment;
     private javax.swing.JButton btnSearchbill;
@@ -1551,8 +1853,6 @@ if (result) {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -1570,17 +1870,26 @@ if (result) {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanelBilling;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblBalance;
-    private javax.swing.JLabel lblBillContact;
-    private javax.swing.JLabel lblBillDentist;
-    private javax.swing.JLabel lblBillPatientName;
+    private javax.swing.JLabel lblBillPatientID;
     private javax.swing.JLabel lblConsultationFee;
     private javax.swing.JLabel lblGrandTotal;
+    private javax.swing.JLabel lblReceiptAppointmentNo;
+    private javax.swing.JLabel lblReceiptBalance;
+    private javax.swing.JLabel lblReceiptBillId;
+    private javax.swing.JLabel lblReceiptConsultationFee;
+    private javax.swing.JLabel lblReceiptDate;
+    private javax.swing.JLabel lblReceiptGrandTotal;
+    private javax.swing.JLabel lblReceiptPatientId;
+    private javax.swing.JLabel lblReceiptPayment;
+    private javax.swing.JLabel lblReceiptStatus;
+    private javax.swing.JLabel lblReceiptTreatmentTotal;
     private javax.swing.JLabel lblTreatmentTotal;
     private javax.swing.JLabel lblWelcome;
     private javax.swing.JTable tblAppointments;
