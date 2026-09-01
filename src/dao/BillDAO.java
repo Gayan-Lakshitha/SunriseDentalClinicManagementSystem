@@ -8,6 +8,7 @@ import database.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import model.BillModel;
 
 public class BillDAO {
@@ -265,6 +266,95 @@ public class BillDAO {
         return result;
     }
      
+     
+     public ArrayList<BillModel> getPatientBills(
+        int patientId) {
+
+    ArrayList<BillModel> list =
+            new ArrayList<>();
+
+    try {
+
+        Connection con =
+                DBConnection.getConnection();
+
+        String sql =
+                "SELECT * FROM bill "
+                + "WHERE patient_id = ? "
+                + "ORDER BY bill_id DESC";
+
+        PreparedStatement pst =
+                con.prepareStatement(sql);
+
+        pst.setInt(1, patientId);
+
+        ResultSet rs =
+                pst.executeQuery();
+
+        while (rs.next()) {
+
+            BillModel bill =
+                    new BillModel();
+
+            bill.setBillId(
+                    rs.getInt("bill_id")
+            );
+
+            bill.setAppointmentNo(
+                    rs.getInt("appointment_no")
+            );
+
+            bill.setPatientId(
+                    rs.getInt("patient_id")
+            );
+
+            bill.setTreatmentTotal(
+                    rs.getDouble("treatment_total")
+            );
+
+            bill.setConsultationFee(
+                    rs.getDouble("consultation_fee")
+            );
+
+            bill.setGrandTotal(
+                    rs.getDouble("grand_total")
+            );
+
+            bill.setPayment(
+                    rs.getDouble("payment")
+            );
+
+            bill.setBalance(
+                    rs.getDouble("balance")
+            );
+
+            bill.setPaymentStatus(
+                    rs.getString("payment_status")
+            );
+
+            bill.setBillDate(
+                    rs.getString("bill_date")
+            );
+
+            list.add(bill);
+        }
+
+        rs.close();
+        pst.close();
+        con.close();
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "Error loading patient bills: "
+                + e.getMessage()
+        );
+
+        e.printStackTrace();
+    }
+
+    return list;
+}
      
      
 }
