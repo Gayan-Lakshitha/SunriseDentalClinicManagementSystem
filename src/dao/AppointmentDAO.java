@@ -15,7 +15,7 @@ import model.UserModel;
 
 public class AppointmentDAO {
 
-    // Save new appointment
+    
     public boolean addAppointment(AppointmentModel appointment) {
 
         String sql = "INSERT INTO appointments "
@@ -55,7 +55,7 @@ public class AppointmentDAO {
     }
 
 
-    // Get all doctors
+   
     public ArrayList<UserModel> getDoctors() {
 
         ArrayList<UserModel> doctorList =
@@ -103,7 +103,7 @@ public class AppointmentDAO {
     }
 
 
-    // Get appointments for one patient
+   
     public ArrayList<AppointmentModel> getPatientAppointments(
             int patientId) {
 
@@ -478,47 +478,36 @@ public class AppointmentDAO {
 
             AppointmentModel appointment =
                     new AppointmentModel();
-
             appointment.setAppointmentNo(
                     rs.getInt("appointment_no")
             );
-
             appointment.setPatientId(
                     rs.getInt("patient_id")
             );
-
             appointment.setPatientName(
                     rs.getString("patient_name")
             );
-
             appointment.setContactNo(
                     rs.getString("contact_no")
             );
-
             appointment.setAddress(
                     rs.getString("address")
             );
-
             appointment.setDentistId(
                     rs.getInt("dentist_id")
             );
-
             appointment.setDentistName(
                     rs.getString("dentist_name")
             );
-
             appointment.setAppointmentDate(
                     rs.getString("appointment_date")
             );
-
             appointment.setAppointmentTime(
                     rs.getString("appointment_time")
             );
-
             appointment.setStatus(
                     rs.getString("status")
             );
-
             appointmentList.add(appointment);
         }
 
@@ -536,9 +525,7 @@ public class AppointmentDAO {
 
     return appointmentList;
 }
-    
-
-    
+      
     public AppointmentModel getAppointmentByNo(int appointmentNo) {
 
     AppointmentModel appointment = null;
@@ -568,27 +555,13 @@ public class AppointmentDAO {
                     rs.getInt("patient_id")
             );
 
-//            appointment.setPatientName(
-//                    rs.getString("patient_name")
-//            );
-
             appointment.setAddress(
                     rs.getString("address")
             );
 
-//            appointment.setContactNo(
-//                    rs.getString("contact_no")
-//            );
-
             appointment.setDentistId(
                     rs.getInt("dentist_id")
             );
-
-//            appointment.setDentistName(
-//                    rs.getString("dentist_name")
-//            );
-
-            // Your model uses String for appointmentDate
             appointment.setAppointmentDate(
                     rs.getString("appointment_date")
             );

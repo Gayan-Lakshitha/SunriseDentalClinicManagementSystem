@@ -49,6 +49,7 @@ public class StaffDashBoard extends javax.swing.JFrame {
      */
     public StaffDashBoard() {
         initComponents();
+        loadHelp();
         setLocationRelativeTo(null);
         txtAppointmentNo.setEditable(false);
         txtPatientName.setEditable(false);
@@ -69,6 +70,27 @@ public class StaffDashBoard extends javax.swing.JFrame {
     });
         
     }
+    
+    private void loadHelp() {
+
+    txtHelp.setText(
+        "STAFF DASHBOARD HELP\n\n"
+
+        + "1. Use the Appointment Management section to view appointments.\n\n"
+        + "2. Search for an appointment using the Appointment Number.\n\n"
+        + "3. Select an appointment from the table.\n\n"
+        + "4. Staff can approve or reject appointments.\n\n"
+        + "5. Add or update the appointment time when necessary.\n\n"
+        + "6. Update appointment details if changes are required.\n\n"
+        + "7. Delete incorrect or unwanted appointments carefully.\n\n"
+        + "8. Use the Billing section to search for an appointment.\n\n"
+        + "9. Calculate the treatment total and consultation fee.\n\n"
+        + "10. Enter the payment amount and calculate the balance.\n\n"
+        + "11. Save the bill after checking all details.\n\n"
+        + "12. Print the bill or receipt for the patient.\n\n"
+        + "13. Click Logout to safely leave the system."
+    );
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -162,6 +184,9 @@ public class StaffDashBoard extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
+        jPanelHelp = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txtHelp = new javax.swing.JTextArea();
         jPanel6 = new javax.swing.JPanel();
         lblWelcome = new javax.swing.JLabel();
 
@@ -203,6 +228,11 @@ public class StaffDashBoard extends javax.swing.JFrame {
         btnHelp.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnHelp.setForeground(new java.awt.Color(255, 255, 255));
         btnHelp.setText("Help");
+        btnHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHelpActionPerformed(evt);
+            }
+        });
 
         btnLogout.setBackground(new java.awt.Color(51, 0, 204));
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -886,6 +916,32 @@ public class StaffDashBoard extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab5", jPanel7);
 
+        jPanelHelp.setBackground(new java.awt.Color(51, 255, 51));
+
+        txtHelp.setColumns(20);
+        txtHelp.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtHelp.setRows(5);
+        jScrollPane4.setViewportView(txtHelp);
+
+        javax.swing.GroupLayout jPanelHelpLayout = new javax.swing.GroupLayout(jPanelHelp);
+        jPanelHelp.setLayout(jPanelHelpLayout);
+        jPanelHelpLayout.setHorizontalGroup(
+            jPanelHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHelpLayout.createSequentialGroup()
+                .addGap(109, 109, 109)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(130, Short.MAX_VALUE))
+        );
+        jPanelHelpLayout.setVerticalGroup(
+            jPanelHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHelpLayout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(53, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("tab5", jPanelHelp);
+
         jPanel6.setBackground(new java.awt.Color(204, 255, 204));
 
         lblWelcome.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -991,25 +1047,19 @@ if (!email.matches(emailPattern)) {
 
 if (!contact.matches("\\d{10}")) {
 
-    JOptionPane.showMessageDialog(this,
-            "Contact number must contain exactly 10 digits.");
-
+    JOptionPane.showMessageDialog(this,  "Contact number must contain exactly 10 digits.");
     return;
 }
 
 if (password.length() < 8) {
 
-    JOptionPane.showMessageDialog(this,
-            "Password must contain at least 8 characters.");
-
+    JOptionPane.showMessageDialog(this, "Password must contain at least 8 characters.");
     return;
 }
 
 if (!password.equals(confirmPassword)) {
 
-    JOptionPane.showMessageDialog(this,
-            "Password and Confirm Password do not match.");
-
+    JOptionPane.showMessageDialog(this,  "Password and Confirm Password do not match.");
     return;
 }
 
@@ -1027,13 +1077,10 @@ boolean result = dao.registerUser(user);
 
 if (result) {
 
-    JOptionPane.showMessageDialog(this,
-            "Registration successful!");
-
+    JOptionPane.showMessageDialog(this,  "Registration successful!");
     clearFields();
 
-//    new Login().setVisible(true);
-//    this.dispose();
+
 
 } else {
 
@@ -1059,7 +1106,6 @@ if (result) {
 
     if (!Character.isDigit(c)
             || txtContact.getText().length() >= 10) {
-
         evt.consume();
     }
     }//GEN-LAST:event_txtContactKeyTyped
@@ -1074,11 +1120,8 @@ if (result) {
     );
 
     if (choice == JOptionPane.YES_OPTION) {
-
         Session.clearSession();
-
         new Login().setVisible(true);
-
         this.dispose();
     }
     }//GEN-LAST:event_btnLogoutActionPerformed
@@ -1098,44 +1141,31 @@ if (result) {
     if (row == -1) {
         return;
     }
-
     txtAppointmentNo.setText(
             tblAppointments.getValueAt(row, 0).toString()
     );
-
     txtPatientName.setText(
             tblAppointments.getValueAt(row, 1).toString()
     );
-
     txtContactNum.setText(
             tblAppointments.getValueAt(row, 2).toString()
     );
-
     txtAddress.setText(
             tblAppointments.getValueAt(row, 3).toString()
     );
-
     String dentist =
             tblAppointments.getValueAt(row, 4).toString();
-
     cmbDentist.setSelectedItem(dentist);
-
     txtDate.setText(
             tblAppointments.getValueAt(row, 5).toString()
     );
-
     Object timeValue =
             tblAppointments.getValueAt(row, 6);
-
     if (timeValue != null) {
-
         txtTime.setText(timeValue.toString());
-
     } else {
-
         txtTime.setText("");
     }
-
     cmbStatus.setSelectedItem(
             tblAppointments.getValueAt(row, 7).toString()
     );
@@ -1148,9 +1178,7 @@ if (result) {
 
     if (search.isEmpty()) {
 
-        JOptionPane.showMessageDialog(this,
-                "Please enter an appointment number.");
-
+        JOptionPane.showMessageDialog(this, "Please enter an appointment number.");
         return;
     }
 
@@ -1167,9 +1195,7 @@ if (result) {
 
         if (appointment == null) {
 
-            JOptionPane.showMessageDialog(this,
-                    "Appointment not found.");
-
+            JOptionPane.showMessageDialog(this, "Appointment not found.");
             return;
         }
 
@@ -1186,37 +1212,27 @@ if (result) {
         // TODO add your handling code here:
         if (txtAppointmentNo.getText().isEmpty()) {
 
-        JOptionPane.showMessageDialog(this,
-                "Please select an appointment first.");
+        JOptionPane.showMessageDialog(this, "Please select an appointment first.");
 
         return;
     }
 
     String address = txtAddress.getText().trim();
-
     String date = txtDate.getText().trim();
-
     String time = txtTime.getText().trim();
-
     String status =
             cmbStatus.getSelectedItem().toString();
-
     int selectedIndex =
             cmbDentist.getSelectedIndex();
-
     if (address.isEmpty()
             || date.isEmpty()
             || selectedIndex <= 0) {
 
-        JOptionPane.showMessageDialog(this,
-                "Please fill in all required fields.");
-
+        JOptionPane.showMessageDialog(this, "Please fill in all required fields.");
         return;
     }
-
     UserModel doctor =
             doctorList.get(selectedIndex - 1);
-
     int appointmentNo =
             Integer.parseInt(
                     txtAppointmentNo.getText()
@@ -1320,9 +1336,8 @@ if (result) {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnCreateBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateBillActionPerformed
-        // TODO add your handling code here:
-        clearBillingForm();
-
+        
+       clearBillingForm();
        jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event_btnCreateBillActionPerformed
 
@@ -1484,7 +1499,7 @@ if (result) {
         return;
     }
 
-    // Check Patient ID
+    
     if (billPatientId <= 0) {
 
         JOptionPane.showMessageDialog(
@@ -1495,7 +1510,7 @@ if (result) {
         return;
     }
 
-    // Check payment
+   
     if (txtPayment.getText().trim().isEmpty()) {
 
         JOptionPane.showMessageDialog(
@@ -1506,10 +1521,8 @@ if (result) {
         return;
     }
     
-     // Create BillDAO only once
+    
     BillDAO dao = new BillDAO();
-
-    // Check whether bill already exists
     if (dao.billExists(billAppointmentNo)) {
 
         JOptionPane.showMessageDialog(
@@ -1518,48 +1531,35 @@ if (result) {
                 "Duplicate Bill",
                 JOptionPane.WARNING_MESSAGE
         );
-
         return;
     }
-
-    // Create Bill object
+   
     BillModel bill =
             new BillModel();
-
     bill.setAppointmentNo(
             billAppointmentNo
     );
-
     bill.setPatientId(
             billPatientId
     );
-
     bill.setTreatmentTotal(
             treatmentTotal
     );
-
     bill.setConsultationFee(
             consultationFee
     );
-
     bill.setGrandTotal(
             grandTotal
     );
-
     bill.setPayment(
             paymentAmount
     );
-
     bill.setBalance(
             balanceAmount
     );
-
     bill.setPaymentStatus(
             paymentStatus
     );
-
-    
-
     boolean result =
             dao.createBill(bill);
 
@@ -1579,8 +1579,6 @@ if (result) {
     }
     
     loadReceipt(billAppointmentNo);
-
-    // Open Receipt tab
     jTabbedPane1.setSelectedIndex(3);
     
     }//GEN-LAST:event_btnSaveBillActionPerformed
@@ -1689,18 +1687,16 @@ if (result) {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordActionPerformed
 
+    private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
+       jTabbedPane1.setSelectedIndex(4);
+    }//GEN-LAST:event_btnHelpActionPerformed
+
     private void loadDoctors() {
-
     cmbDentist.removeAllItems();
-
     cmbDentist.addItem("Select Dentist");
-
     AppointmentDAO dao = new AppointmentDAO();
-
     doctorList = dao.getDoctors();
-
     for (UserModel doctor : doctorList) {
-
         cmbDentist.addItem(doctor.getName());
     }
 }
@@ -1809,34 +1805,25 @@ if (result) {
     txtPatientName.setText(
             appointment.getPatientName()
     );
-
     txtContactNum.setText(
             appointment.getContactNo()
     );
-
     txtAddress.setText(
             appointment.getAddress()
     );
-
     cmbDentist.setSelectedItem(
             appointment.getDentistName()
     );
-
     txtDate.setText(
             appointment.getAppointmentDate()
     );
-
     if (appointment.getAppointmentTime() != null) {
-
         txtTime.setText(
                 appointment.getAppointmentTime()
         );
-
     } else {
-
         txtTime.setText("");
     }
-
     cmbStatus.setSelectedItem(
             appointment.getStatus()
     );
@@ -1891,20 +1878,12 @@ if (result) {
 }
     
     private void clearBillingForm() {
-
     billAppointmentNo = 0;
-
     treatmentTotal = 0.0;
-
     grandTotal = 0.0;
-
     txtBillAppointmentNo.setText("");
-
-    
     lblBillPatientID.setText("-");
-
     lblTreatmentTotal.setText("Rs. 0.00");
-
     lblConsultationFee.setText(
             String.format(
                     "Rs. %.2f",
@@ -2016,20 +1995,13 @@ if (result) {
     private void clearBillingDetails() {
 
     billAppointmentNo = 0;
-
     treatmentTotal = 0.0;
-
     grandTotal = 0.0;
     lblBillPatientID.setText("-");
-
     lblTreatmentTotal.setText("Rs. 0.00");
-
     lblGrandTotal.setText("Rs. 0.00");
-
     txtPayment.setText("");
-
     lblBalance.setText("Rs. 0.00");
-
     DefaultTableModel model =
             (DefaultTableModel)
             tblBillTreatments.getModel();
@@ -2070,12 +2042,6 @@ if (result) {
                 page.getMediaBox().getWidth();
 
         float y = 780;
-
-
-        // =========================================
-        // CLINIC NAME
-        // =========================================
-
         content.beginText();
 
         content.setFont(
@@ -2096,12 +2062,6 @@ if (result) {
 
 
         y -= 25;
-
-
-        // =========================================
-        // ADDRESS
-        // =========================================
-
         content.beginText();
 
         content.setFont(
@@ -2123,11 +2083,6 @@ if (result) {
 
         y -= 40;
 
-
-        // =========================================
-        // BILL TITLE
-        // =========================================
-
         content.beginText();
 
         content.setFont(
@@ -2148,11 +2103,6 @@ if (result) {
 
 
         y -= 35;
-
-
-        // =========================================
-        // BILL DETAILS
-        // =========================================
 
         content.beginText();
 
@@ -2206,11 +2156,6 @@ if (result) {
 
         y -= 110;
 
-
-        // =========================================
-        // LINE
-        // =========================================
-
         content.moveTo(
                 70,
                 y
@@ -2225,11 +2170,6 @@ if (result) {
 
 
         y -= 30;
-
-
-        // =========================================
-        // BILL AMOUNTS
-        // =========================================
 
         content.beginText();
 
@@ -2287,11 +2227,6 @@ if (result) {
 
         y -= 65;
 
-
-        // =========================================
-        // LINE
-        // =========================================
-
         content.moveTo(
                 70,
                 y
@@ -2306,11 +2241,6 @@ if (result) {
 
 
         y -= 30;
-
-
-        // =========================================
-        // GRAND TOTAL
-        // =========================================
 
         content.beginText();
 
@@ -2345,12 +2275,6 @@ if (result) {
 
 
         y -= 35;
-
-
-        // =========================================
-        // PAYMENT
-        // =========================================
-
         content.beginText();
 
         content.setFont(
@@ -2407,11 +2331,6 @@ if (result) {
 
         y -= 65;
 
-
-        // =========================================
-        // PAYMENT STATUS
-        // =========================================
-
         content.beginText();
 
         content.setFont(
@@ -2434,11 +2353,6 @@ if (result) {
 
         y -= 60;
 
-
-        // =========================================
-        // FOOTER LINE
-        // =========================================
-
         content.moveTo(
                 70,
                 y
@@ -2453,11 +2367,6 @@ if (result) {
 
 
         y -= 35;
-
-
-        // =========================================
-        // THANK YOU
-        // =========================================
 
         content.beginText();
 
@@ -2572,9 +2481,11 @@ if (result) {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanelBilling;
+    private javax.swing.JPanel jPanelHelp;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblBalance;
     private javax.swing.JLabel lblBillPatientID;
@@ -2602,6 +2513,7 @@ if (result) {
     private javax.swing.JTextField txtContactNum;
     private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextArea txtHelp;
     private javax.swing.JTextField txtName;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPatientName;

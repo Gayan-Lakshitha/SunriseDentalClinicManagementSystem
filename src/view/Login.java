@@ -183,28 +183,20 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        String email = txtLoginEmail.getText().trim();
-
-    String password =
-            new String(txtLoginPassword.getPassword());
+    String email = txtLoginEmail.getText().trim();
+    String password =new String(txtLoginPassword.getPassword());
 
     if (email.isEmpty() || password.isEmpty()) {
 
-        JOptionPane.showMessageDialog(this,
-                "Please enter your email and password.");
+        JOptionPane.showMessageDialog(this, "Please enter your email and password.");
 
         return;
     }
 
     UserDAO dao = new UserDAO();
-
     UserModel user = dao.login(email, password);
-
     if (user == null) {
-
-        JOptionPane.showMessageDialog(this,
-                "Invalid email or password.");
-
+        JOptionPane.showMessageDialog(this, "Invalid email or password.");
         return;
     }
 
@@ -213,36 +205,28 @@ public class Login extends javax.swing.JFrame {
     Session.setEmail(user.getEmail());
     Session.setRole(user.getRole());
 
-    JOptionPane.showMessageDialog(this,
-            "Login successful! Welcome " + user.getName());
+    JOptionPane.showMessageDialog(this,"Login successful! Welcome " + user.getName());
 
     String role = user.getRole();
 
     if (role.equalsIgnoreCase("Admin")) {
-
         new AdminDashboard().setVisible(true);
 
     } else if (role.equalsIgnoreCase("Staff")) {
-
         new StaffDashBoard().setVisible(true);
 
     } else if (role.equalsIgnoreCase("Doctor")) {
-
         new DoctorDashboard().setVisible(true);
 
     } else if (role.equalsIgnoreCase("Patient")) {
-
         new PatientDashboard().setVisible(true);
 
     } else {
 
-        JOptionPane.showMessageDialog(this,
-                "Unknown user role.");
-
+        JOptionPane.showMessageDialog(this, "Unknown user role.");
         Session.clearSession();
         return;
     }
-
     this.dispose();
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -257,7 +241,6 @@ public class Login extends javax.swing.JFrame {
     );
 
     if (choice == JOptionPane.YES_OPTION) {
-
         System.exit(0);
     }
     }//GEN-LAST:event_btnExitActionPerformed

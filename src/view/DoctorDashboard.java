@@ -17,14 +17,10 @@ import model.AppointmentModel;
  */
 public class DoctorDashboard extends javax.swing.JFrame {
  
-//    private int appointmentNo = 0;
-
-    /**
-     * Creates new form DoctorDashboard
-     */
+    
     public DoctorDashboard() {
         initComponents();
-        
+        loadHelp();
         setLocationRelativeTo(null);
         loadDoctorAppointments();
 
@@ -41,6 +37,25 @@ public class DoctorDashboard extends javax.swing.JFrame {
     });
         
     }
+    
+    private void loadHelp() {
+
+    txtHelp.setText(
+        "DOCTOR DASHBOARD HELP\n\n"
+
+        + "1. Click My Appointments to view your assigned appointments.\n\n"
+        + "2. Select an appointment from the appointment table.\n\n"
+        + "3. Click Add Treatment to open the treatment section.\n\n"
+        + "4. Check that the correct Appointment Number is displayed.\n\n"
+        + "5. Select a treatment from the treatment list.\n\n"
+        + "6. The treatment amount will appear automatically.\n\n"
+        + "7. Click Add Treatment to save the selected treatment.\n\n"
+        + "8. You can add one or more treatments for an appointment.\n\n"
+        + "9. Click View Added Treatments to view the treatments added to the appointment.\n\n"
+        + "10. Click Refresh to update the appointment list.\n\n"
+        + "11. Click Logout to safely leave the system."
+    );
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -64,6 +79,9 @@ public class DoctorDashboard extends javax.swing.JFrame {
         tblDoctorAppointments = new javax.swing.JTable();
         btnAddTreatments = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
+        jPanelHelp = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtHelp = new javax.swing.JTextArea();
         jPanel4 = new javax.swing.JPanel();
         lblWelcome = new javax.swing.JLabel();
 
@@ -81,9 +99,19 @@ public class DoctorDashboard extends javax.swing.JFrame {
 
         btnAddTreatment.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAddTreatment.setText("TreatMent");
+        btnAddTreatment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddTreatmentActionPerformed(evt);
+            }
+        });
 
         btnHelp.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnHelp.setText("Help");
+        btnHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHelpActionPerformed(evt);
+            }
+        });
 
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnLogout.setText("Logout");
@@ -124,7 +152,7 @@ public class DoctorDashboard extends javax.swing.JFrame {
                 .addGap(32, 32, 32))
         );
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/brand-logo2.png"))); // NOI18N
 
@@ -147,6 +175,8 @@ public class DoctorDashboard extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab1", jPanel2);
 
+        jPanel3.setBackground(new java.awt.Color(204, 204, 255));
+
         tblDoctorAppointments.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -160,6 +190,9 @@ public class DoctorDashboard extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(tblDoctorAppointments);
 
+        btnAddTreatments.setBackground(new java.awt.Color(0, 0, 153));
+        btnAddTreatments.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAddTreatments.setForeground(new java.awt.Color(255, 255, 255));
         btnAddTreatments.setText("Add Treatment");
         btnAddTreatments.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,6 +200,9 @@ public class DoctorDashboard extends javax.swing.JFrame {
             }
         });
 
+        btnRefresh.setBackground(new java.awt.Color(0, 0, 153));
+        btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRefresh.setForeground(new java.awt.Color(255, 255, 255));
         btnRefresh.setText("refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,33 +215,58 @@ public class DoctorDashboard extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(btnRefresh)
-                        .addGap(73, 73, 73)
-                        .addComponent(btnAddTreatments)))
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addGap(122, 122, 122)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAddTreatments, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(173, 173, 173))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(81, 81, 81)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(34, 34, 34)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(btnAddTreatments))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(btnRefresh)))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addGap(55, 55, 55)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddTreatments, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab2", jPanel3);
+
+        jPanelHelp.setBackground(new java.awt.Color(204, 204, 255));
+
+        txtHelp.setEditable(false);
+        txtHelp.setColumns(20);
+        txtHelp.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtHelp.setLineWrap(true);
+        txtHelp.setRows(5);
+        txtHelp.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(txtHelp);
+
+        javax.swing.GroupLayout jPanelHelpLayout = new javax.swing.GroupLayout(jPanelHelp);
+        jPanelHelp.setLayout(jPanelHelpLayout);
+        jPanelHelpLayout.setHorizontalGroup(
+            jPanelHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHelpLayout.createSequentialGroup()
+                .addGap(85, 85, 85)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
+        jPanelHelpLayout.setVerticalGroup(
+            jPanelHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHelpLayout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("tab3", jPanelHelp);
 
         jPanel4.setBackground(new java.awt.Color(51, 51, 255));
 
@@ -269,44 +330,32 @@ public class DoctorDashboard extends javax.swing.JFrame {
             "Confirm Logout",
             JOptionPane.YES_NO_OPTION
     );
-
     if (choice == JOptionPane.YES_OPTION) {
-
         Session.clearSession();
-
         new Login().setVisible(true);
-
         this.dispose();
     }
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnAddTreatmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTreatmentsActionPerformed
 
-    
      int row = tblDoctorAppointments.getSelectedRow();
-
     if (row == -1) {
-
         JOptionPane.showMessageDialog(
                 this,
                 "Please select an appointment first."
         );
-
         return;
     }
-
     int selectedAppointmentNo =
             Integer.parseInt(
                     tblDoctorAppointments
                             .getValueAt(row, 0)
                             .toString()
             );
-
     new AddTreatment(selectedAppointmentNo)
             .setVisible(true);
-
     this.dispose();
-
     }//GEN-LAST:event_btnAddTreatmentsActionPerformed
 
     private void btnMyAppointmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyAppointmentsActionPerformed
@@ -317,14 +366,20 @@ public class DoctorDashboard extends javax.swing.JFrame {
         loadDoctorAppointments();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
-    private void loadDoctorAppointments() {
+    private void btnAddTreatmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTreatmentActionPerformed
+        new AddTreatment(PROPERTIES).setVisible(rootPaneCheckingEnabled);
+        this.dispose();
+    }//GEN-LAST:event_btnAddTreatmentActionPerformed
 
+    private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
+        jTabbedPane1.setSelectedIndex(2);
+    }//GEN-LAST:event_btnHelpActionPerformed
+
+    private void loadDoctorAppointments() {
     DefaultTableModel model =
             (DefaultTableModel)
             tblDoctorAppointments.getModel();
-
     model.setRowCount(0);
-
     AppointmentDAO dao =
             new AppointmentDAO();
 
@@ -397,9 +452,12 @@ public class DoctorDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanelHelp;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblWelcome;
     private javax.swing.JTable tblDoctorAppointments;
+    private javax.swing.JTextArea txtHelp;
     // End of variables declaration//GEN-END:variables
 }
